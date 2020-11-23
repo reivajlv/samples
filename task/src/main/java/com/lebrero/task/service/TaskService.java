@@ -1,13 +1,10 @@
 package com.lebrero.task.service;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.util.Streamable;
 
 import com.lebrero.task.dto.TaskDTO;
 import com.lebrero.task.entity.Task;
@@ -44,23 +41,12 @@ public class TaskService implements Service<TaskDTO>, Doable{
 
 		Long id=null;
 		try {
-			Long maxId = 0L;
-			if(t.getId()==null || t.getId()==0L) {
-				List<Task> taskEntityList= repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-				
-				if(!CollectionUtils.isEmpty(taskEntityList) && taskEntityList.get(0).getId()!=null) {
-					maxId=taskEntityList.get(0).getId();
-				}else {
-					maxId=1L;
-				}
-				t.setId(maxId);
-			}
 
 			LOG.info("Creating the task with id: " + t.getId());
 			Task taskEntity = mapperUtil.map(t, Task.class);
 
 			id = repository.insert(taskEntity).getId();
-		}catch(MongoServerException e) {
+		}catch(MongoWriteException e) {
 			LOG.error("Error reading the task with id: " + id + "Error Message: " + e.getMessage());
 		}
 
