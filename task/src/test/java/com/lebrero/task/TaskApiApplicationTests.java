@@ -24,7 +24,7 @@ class TaskApiApplicationTests {
 	@Test
 	public void create() throws Exception {
 		assertThat(this.restTemplate.
-				postForEntity("http://localhost:" + port + "/task/",new TaskDTO(6L, "Task1","Description1",1, "Me",false),Long.class))
+				postForEntity("http://localhost:" + port + "/task/",new TaskDTO(10L, "Task1","Description1",1, "Me",false),Long.class))
 				.isNotNull();
 	}
 	
