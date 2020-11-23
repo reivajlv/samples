@@ -1,0 +1,19 @@
+version: "1.0"
+
+networks:
+  default:
+    external:
+      name: backend
+services:
+  taskdb:
+    image: mongo:latest
+    container_name: taskdb
+    ports:
+      - 27017:27017
+  task-app-image:
+    image: task-app-image
+    container_name: task-app-image
+    ports:
+      - 8080:8080
+    links:
+      - taskdb
